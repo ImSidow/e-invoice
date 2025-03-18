@@ -4,19 +4,19 @@ import { usersTable } from "./users";
 export const authenticatorsTable = mysqlTable(
     "authenticators",
     {
-        credentialID: varchar("credentialID", { length: 255 }).notNull().unique(),
+        credentialID: varchar("credential_id", { length: 255 }).notNull().unique(),
         userId: varchar("userId", { length: 255 })
             .notNull()
             .references(() => usersTable.id, { onDelete: "cascade" }),
-        providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-        credentialPublicKey: varchar("credentialPublicKey", {
+        providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
+        credentialPublicKey: varchar("credential_public_key", {
             length: 255,
         }).notNull(),
         counter: int("counter").notNull(),
-        credentialDeviceType: varchar("credentialDeviceType", {
+        credentialDeviceType: varchar("credential_device_type", {
             length: 255,
         }).notNull(),
-        credentialBackedUp: boolean("credentialBackedUp").notNull(),
+        credentialBackedUp: boolean("credential_backed_up").notNull(),
         transports: varchar("transports", { length: 255 }),
     },
     (authenticator) => ({

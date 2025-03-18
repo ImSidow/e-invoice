@@ -8,6 +8,6 @@ export const usersTable = mysqlTable("users", {
     name: varchar("name", { length: 255 }),
     email: varchar("email", { length: 255 }).unique(),
     password: varchar("password", { length: 255 }),
-    emailVerified: timestamp("emailVerified", { mode: "date", fsp: 3 }),
+    emailVerified: timestamp("email_verified_at", { mode: "date", fsp: 3 }),
     image: varchar("image", { length: 255 }),
 });

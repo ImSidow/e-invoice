@@ -31,11 +31,16 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
         };
     }
 
-    db.insert(usersTable).values({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-    });
+    const result = db
+        .insert(usersTable)
+        .values({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+        })
+        .execute();
+
+    console.log(result);
 
     return {
         message: "register successful",

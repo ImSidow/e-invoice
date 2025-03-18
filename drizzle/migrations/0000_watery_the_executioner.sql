@@ -37,6 +37,7 @@ CREATE TABLE `users` (
 	`id` varchar(255) NOT NULL,
 	`name` varchar(255),
 	`email` varchar(255),
+	`password` varchar(255),
 	`emailVerified` timestamp(3),
 	`image` varchar(255),
 	CONSTRAINT `users_id` PRIMARY KEY(`id`),
