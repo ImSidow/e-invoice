@@ -5,17 +5,17 @@ import { Label } from "@/components/shadcn/ui/label";
 import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import Link from "next/link";
-import { loginAction, LoginPrevStateType } from "../action";
+import { registerAction, RegisterPrevStateType } from "../action";
 import { useActionState } from "react";
 
-const initialState: LoginPrevStateType = {
+const initialState: RegisterPrevStateType = {
     old: null,
     errors: null,
     message: null,
 };
 
-const LoginForm = () => {
-    const [state, formAction, pending] = useActionState(loginAction, initialState);
+const RegisterForm = () => {
+    const [state, formAction, pending] = useActionState(registerAction, initialState);
 
     console.log(state);
 
@@ -29,11 +29,19 @@ const LoginForm = () => {
                     <Link href="/" aria-label="go home" className="mx-auto block w-fit">
                         <Logo />
                     </Link>
-                    <h1 className="mb-1 mt-4 text-xl font-semibold">Sign In to e-invoice</h1>
-                    <p className="text-sm">Welcome back! Sign in to continue</p>
+                    <h1 className="mb-1 mt-4 text-xl font-semibold">Create a e-invoice Account</h1>
+                    <p className="text-sm">Welcome! Create an account to get started</p>
                 </div>
 
                 <div className="mt-6 space-y-6">
+                    <div className="space-y-2">
+                        <Label htmlFor="name" className="block text-sm">
+                            Full Name
+                        </Label>
+                        <Input type="text" name="name" id="name" placeholder="Enter name" className="mb-0" defaultValue={state.old?.name ?? ""} />
+                        {state.errors?.name && <small className="text-destructive text-xs">{state.errors.name[0]}</small>}
+                    </div>
+
                     <div className="space-y-2">
                         <Label htmlFor="email" className="block text-sm">
                             Email
@@ -72,7 +80,7 @@ const LoginForm = () => {
                     </div>
 
                     <Button className="w-full" size="lg" type="submit" disabled={pending}>
-                        Sign In
+                        Register
                     </Button>
                 </div>
 
@@ -109,9 +117,9 @@ const LoginForm = () => {
 
             <div className="p-3">
                 <p className="text-accent-foreground text-center text-sm">
-                    {"Don't have an account ?"}
+                    {"Have an account ?"}
                     <Button asChild variant="link" className="px-2">
-                        <Link href="/auth/register">Create account</Link>
+                        <Link href="/auth/login">Login</Link>
                     </Button>
                 </p>
             </div>
@@ -119,4 +127,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

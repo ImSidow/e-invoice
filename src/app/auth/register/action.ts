@@ -3,16 +3,18 @@
 import { z } from "zod";
 
 const schema = z.object({
+    name: z.string().nonempty("field is required"),
     email: z.string().nonempty("field is required").email(),
-    password: z.string().nonempty("field is required"),
+    password: z.string().nonempty("field is required").min(8),
 });
 
 type SchemaType = z.infer<typeof schema>;
 
-export type LoginPrevStateType = { old?: SchemaType | null; errors?: Record<string, string[]> | null; message: string | null };
+export type RegisterPrevStateType = { old?: SchemaType | null; errors?: Record<string, string[]> | null; message: string | null };
 
-export const loginAction = async (state: LoginPrevStateType, formData: FormData) => {
+export const registerAction = async (state: RegisterPrevStateType, formData: FormData) => {
     const data = {
+        name: formData.get("name") as string,
         email: formData.get("email") as string,
         password: formData.get("password") as string,
     };
@@ -27,6 +29,6 @@ export const loginAction = async (state: LoginPrevStateType, formData: FormData)
     }
 
     return {
-        message: "Login successful",
+        message: "register successful",
     };
 };
