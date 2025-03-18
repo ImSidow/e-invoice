@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { signIn } from "next-auth/react";
 
 const schema = z.object({
     name: z.string().nonempty("field is required"),
@@ -27,6 +28,8 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
             message: "Missing required fields",
         };
     }
+
+    signIn();
 
     return {
         message: "register successful",

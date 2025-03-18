@@ -17,8 +17,6 @@ const initialState: LoginPrevStateType = {
 const LoginForm = () => {
     const [state, formAction, pending] = useActionState(loginAction, initialState);
 
-    console.log(state);
-
     return (
         <form
             action={formAction}

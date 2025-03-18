@@ -7,6 +7,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import Link from "next/link";
 import { registerAction, RegisterPrevStateType } from "../action";
 import { useActionState } from "react";
+import { useSession } from "next-auth/react";
 
 const initialState: RegisterPrevStateType = {
     old: null,
@@ -16,8 +17,9 @@ const initialState: RegisterPrevStateType = {
 
 const RegisterForm = () => {
     const [state, formAction, pending] = useActionState(registerAction, initialState);
+    const { data: session } = useSession();
 
-    console.log(state);
+    console.log(session);
 
     return (
         <form
