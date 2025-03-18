@@ -17,6 +17,8 @@ const initialState: LoginPrevStateType = {
 const LoginForm = () => {
     const [state, formAction, pending] = useActionState(loginAction, initialState);
 
+    console.log(state);
+
     return (
         <form
             action={formAction}
@@ -36,8 +38,15 @@ const LoginForm = () => {
                         <Label htmlFor="email" className="block text-sm">
                             Email
                         </Label>
-                        <Input type="email" name="email" id="email" placeholder="Enter email" defaultValue={state.old?.email ?? ""} />
-                        {state.errors?.email && <small className="text-destructive text-xs">{state.errors.email}</small>}
+                        <Input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter email"
+                            className="mb-0"
+                            defaultValue={state.old?.email ?? ""}
+                        />
+                        {state.errors?.email && <small className="text-destructive text-xs">{state.errors.email[0]}</small>}
                     </div>
 
                     <div className="space-y-0.5">
@@ -55,11 +64,11 @@ const LoginForm = () => {
                             type="password"
                             name="password"
                             id="password"
-                            className="input sz-md variant-mixed"
+                            className="input sz-md variant-mixed mb-0"
                             placeholder="Enter password"
                             defaultValue={state.old?.password ?? ""}
                         />
-                        {state.errors?.password && <small className="text-destructive text-xs">{state.errors.password}</small>}
+                        {state.errors?.password && <small className="text-destructive text-xs">{state.errors.password[0]}</small>}
                     </div>
 
                     <Button className="w-full" size="lg" type="submit" disabled={pending}>

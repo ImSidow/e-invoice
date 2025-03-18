@@ -3,8 +3,8 @@
 import { z } from "zod";
 
 const schema = z.object({
-    email: z.string({ message: "field is required" }).email(),
-    password: z.string({ message: "field is required" }).min(8),
+    email: z.string().nonempty("field is required").email(),
+    password: z.string().nonempty("field is required").min(8),
 });
 
 type SchemaType = z.infer<typeof schema>;
@@ -18,7 +18,6 @@ export const loginAction = async (state: LoginPrevStateType, formData: FormData)
     };
 
     const validatedFields = schema.safeParse(data);
-
     if (!validatedFields.success) {
         return {
             old: data,
