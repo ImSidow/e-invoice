@@ -1,13 +1,13 @@
 import { mysqlTable, varchar, int, primaryKey, boolean } from "drizzle-orm/mysql-core";
-import { users } from "./users";
+import { usersTable } from "./users";
 
-export const authenticators = mysqlTable(
+export const authenticatorsTable = mysqlTable(
     "authenticators",
     {
         credentialID: varchar("credentialID", { length: 255 }).notNull().unique(),
         userId: varchar("userId", { length: 255 })
             .notNull()
-            .references(() => users.id, { onDelete: "cascade" }),
+            .references(() => usersTable.id, { onDelete: "cascade" }),
         providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
         credentialPublicKey: varchar("credentialPublicKey", {
             length: 255,

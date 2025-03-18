@@ -1,7 +1,9 @@
 "use server";
 
+import { db } from "@/lib/drizzle/db";
+import { usersTable } from "@/lib/drizzle/schema";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 
 const schema = z.object({
     name: z.string().nonempty("field is required"),
@@ -29,7 +31,11 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
         };
     }
 
-    signIn();
+    db.insert(usersTable).values({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+    });
 
     return {
         message: "register successful",
