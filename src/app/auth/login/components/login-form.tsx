@@ -7,6 +7,7 @@ import { Input } from "@/components/shadcn/ui/input";
 import Link from "next/link";
 import { loginAction, LoginPrevStateType } from "../action";
 import { useActionState } from "react";
+// import { auth } from "@/auth";
 
 const initialState: LoginPrevStateType = {
     old: null,
@@ -16,6 +17,9 @@ const initialState: LoginPrevStateType = {
 
 const LoginForm = () => {
     const [state, formAction, pending] = useActionState(loginAction, initialState);
+
+    // const session = auth();
+    // console.log(session);
 
     return (
         <form

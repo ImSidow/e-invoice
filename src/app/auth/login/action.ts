@@ -1,8 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { db } from "@/lib/db";
-import { usersTable } from "@/lib/db/schema";
+import { UserRepository } from "@/lib/repository/user.repository";
 import { z } from "zod";
 
 const schema = z.object({
@@ -13,6 +12,8 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>;
 
 export type LoginPrevStateType = { old?: SchemaType | null; errors?: Record<string, string[]> | null; message: string | null };
+
+const userRepository = new UserRepository();
 
 export const loginAction = async (state: LoginPrevStateType, formData: FormData) => {
     const data = {
@@ -29,12 +30,8 @@ export const loginAction = async (state: LoginPrevStateType, formData: FormData)
         };
     }
 
-    const user = await db.select().from(usersTable).execute();
-
-    signIn("credentials", {
-        email: user[0].email,
-        password: user[0].password,
-    });
+    const user = await userRepository.findByEmail(data.email);
+    await signIn("credentials", user[0]);
 
     return {
         message: "Login successful",

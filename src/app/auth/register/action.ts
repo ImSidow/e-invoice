@@ -33,7 +33,7 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
     }
 
     const { password, ...rest } = await userRepository.create(data);
-    signIn("credentials", { user: rest });
+    signIn("credentials", rest);
 
     return {
         message: "register successful",
