@@ -21,10 +21,10 @@ const LoginForm = () => {
     const [state, formAction, pending] = useActionState(loginAction, initialState);
 
     return (
-        <form action={formAction} className="mt-6 space-y-6">
+        <form action={formAction} className="mt-6">
             {state.status === "error" && (
                 <div
-                    className="px-4 py-2 border border-red-300 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    className="px-4 py-2 mb-4 border border-red-300 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                     role="alert"
                 >
                     <h1 className="font-medium">Server Error</h1>
@@ -34,16 +34,16 @@ const LoginForm = () => {
 
             <input type="hidden" name="callback" value={params.get("callback") ?? "/dashboard"} />
 
-            <div className="space-y-2">
-                <Label htmlFor="email" className="block text-sm">
+            <div className="mb-2">
+                <Label htmlFor="email" className="block text-sm mb-2">
                     Email
                 </Label>
                 <Input type="email" name="email" id="email" placeholder="Enter email" className="mb-0" defaultValue={state.old?.email ?? ""} />
-                {state.errors?.email && <small className="text-destructive text-xs">{state.errors.email[0]}</small>}
+                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.email[0]}</small>
             </div>
 
-            <div className="space-y-0.5">
-                <div className="flex items-center justify-between">
+            <div className="mb-2">
+                <div className="flex items-center justify-between mb-1">
                     <Label htmlFor="password" className="text-title text-sm">
                         Password
                     </Label>
@@ -61,10 +61,10 @@ const LoginForm = () => {
                     placeholder="Enter password"
                     defaultValue={state.old?.password ?? ""}
                 />
-                {state.errors?.password && <small className="text-destructive text-xs">{state.errors.password[0]}</small>}
+                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.password[0]}</small>
             </div>
 
-            <Button className="w-full" size="lg" type="submit" disabled={pending}>
+            <Button className="w-full mt-3" size="lg" type="submit" disabled={pending}>
                 Sign In
             </Button>
         </form>

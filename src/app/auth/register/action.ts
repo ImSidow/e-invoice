@@ -2,6 +2,8 @@
 
 import { UserRepository } from "@/lib/repository/user.repository";
 import { signIn } from "@/auth";
+import { FormSubmitResponseType } from "@/types";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const schema = z.object({
@@ -10,13 +12,11 @@ const schema = z.object({
     password: z.string().nonempty("field is required").min(8),
 });
 
-type SchemaType = z.infer<typeof schema>;
-
-export type RegisterPrevStateType = { old?: SchemaType | null; errors?: Record<string, string[]> | null; message: string | null };
+export type RegisterValidationSchemaType = z.infer<typeof schema>;
 
 const userRepository = new UserRepository();
 
-export const registerAction = async (state: RegisterPrevStateType, formData: FormData) => {
+export const registerAction = async (state: FormSubmitResponseType<RegisterValidationSchemaType>, formData: FormData) => {
     const data = {
         name: formData.get("name") as string,
         email: formData.get("email") as string,
@@ -27,15 +27,13 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
     if (!validatedFields.success) {
         return {
             old: data,
+            status: "error",
             errors: validatedFields.error.flatten().fieldErrors,
             message: "Missing required fields",
         };
     }
 
     const { password, ...rest } = await userRepository.create(data);
-    signIn("credentials", rest);
-
-    return {
-        message: "register successful",
-    };
+    await signIn("credentials", rest);
+    redirect("/dashboard");
 };
