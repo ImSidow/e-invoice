@@ -1,6 +1,6 @@
 import { mysqlTable, varchar, timestamp, primaryKey } from "drizzle-orm/mysql-core";
 
-export const verificationTokens = mysqlTable(
+export const verificationTokensTable = mysqlTable(
     "verification_tokens",
     {
         identifier: varchar("identifier", { length: 255 }).notNull(),

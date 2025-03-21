@@ -1,7 +1,8 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/mysql2";
-import * as schema from "@/lib/drizzle/schema";
+import * as schema from "./schema";
 import * as mysql from "mysql2/promise";
+import { MySql2Database } from "drizzle-orm/mysql2";
 
 export const getDBUrl = () => {
     const dbConnection = process.env.DB_CONNECTION;
@@ -13,6 +14,8 @@ export const getDBUrl = () => {
 
     return `${dbConnection}://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
 };
+
+export type DrizzleDB = MySql2Database<typeof schema>;
 
 export const client = mysql.createPool({ uri: getDBUrl() });
 
