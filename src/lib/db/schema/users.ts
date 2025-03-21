@@ -1,3 +1,4 @@
+import { InferInsertModel } from "drizzle-orm";
 import { timestamp, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
 export const usersTable = mysqlTable("users", {
@@ -11,3 +12,5 @@ export const usersTable = mysqlTable("users", {
     emailVerified: timestamp("email_verified_at", { mode: "date", fsp: 3 }),
     image: varchar("image", { length: 255 }),
 });
+
+export type UserType = InferInsertModel<typeof usersTable>;

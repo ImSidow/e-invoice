@@ -32,13 +32,16 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
         };
     }
 
-    db.insert(usersTable)
+    const user = await db
+        .insert(usersTable)
         .values({
             name: data.name,
             email: data.email,
             password: await hash(data.password),
         })
-        .execute();
+        .$returningId();
+
+    console.log(user);
 
     return {
         message: "register successful",
