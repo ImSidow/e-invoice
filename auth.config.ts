@@ -7,6 +7,7 @@ export default {
     providers: [
         Credentials({
             async authorize(credentials) {
+                console.log("object");
                 if (credentials && credentials.id) {
                     return credentials;
                 }
