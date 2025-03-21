@@ -1,10 +1,8 @@
 "use server";
 
-import { db } from "@/lib/drizzle/db";
-import { usersTable } from "@/lib/drizzle/schema";
-import { hash } from "@/lib/utils/hash";
+import { UserRepository } from "@/lib/repository/user.repository";
+import { signIn } from "@/auth";
 import { z } from "zod";
-// import { signIn } from "next-auth/react";
 
 const schema = z.object({
     name: z.string().nonempty("field is required"),
@@ -15,6 +13,8 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>;
 
 export type RegisterPrevStateType = { old?: SchemaType | null; errors?: Record<string, string[]> | null; message: string | null };
+
+const userRepository = new UserRepository();
 
 export const registerAction = async (state: RegisterPrevStateType, formData: FormData) => {
     const data = {
@@ -32,16 +32,8 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
         };
     }
 
-    const user = await db
-        .insert(usersTable)
-        .values({
-            name: data.name,
-            email: data.email,
-            password: await hash(data.password),
-        })
-        .$returningId();
-
-    console.log(user);
+    const { password, ...rest } = await userRepository.create(data);
+    signIn("credentials", { user: rest });
 
     return {
         message: "register successful",

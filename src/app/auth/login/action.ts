@@ -1,8 +1,8 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { db } from "@/lib/drizzle/db";
-import { usersTable } from "@/lib/drizzle/schema";
+import { db } from "@/lib/db";
+import { usersTable } from "@/lib/db/schema";
 import { z } from "zod";
 
 const schema = z.object({

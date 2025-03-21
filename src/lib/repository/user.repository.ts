@@ -1,39 +1,20 @@
-import { db } from "@/lib/db";
 import { usersTable, UserType } from "@/lib/db/schema";
-import { hash } from "@/lib/utils/hash";
+import { BaseRepository } from "./base.repository";
+import { eq } from "drizzle-orm";
+import { db } from "../db";
+import { hash } from "../utils/hash";
 
-export class BaseRepository {
-    async findById(data: UserType) {
-        if (data.password) {
-            data.password = await hash(data.password);
-        }
-
-        return await db.insert(usersTable).values(data).$returningId();
+export class UserRepository extends BaseRepository<UserType> {
+    constructor() {
+        super(usersTable, usersTable.id);
     }
 
     async create(data: UserType) {
-        if (data.password) {
-            data.password = await hash(data.password);
-        }
-
-        return await db.insert(usersTable).values(data).$returningId();
-    }
-}
-
-export class UserRepository {
-    async findById(data: UserType) {
-        if (data.password) {
-            data.password = await hash(data.password);
-        }
-
-        return await db.insert(usersTable).values(data).$returningId();
+        if (data.password) data.password = await hash(data.password);
+        return await super.create(data);
     }
 
-    async create(data: UserType) {
-        if (data.password) {
-            data.password = await hash(data.password);
-        }
-
-        return await db.insert(usersTable).values(data).$returningId();
+    async findByEmail(email: string) {
+        return await db.select().from(usersTable).where(eq(usersTable.email, email)).execute();
     }
 }
