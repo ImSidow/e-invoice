@@ -5,7 +5,7 @@ export const authenticatorsTable = mysqlTable(
     "authenticators",
     {
         credentialID: varchar("credential_id", { length: 255 }).notNull().unique(),
-        userId: varchar("userId", { length: 255 })
+        userId: varchar("user_id", { length: 255 })
             .notNull()
             .references(() => usersTable.id, { onDelete: "cascade" }),
         providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),

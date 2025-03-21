@@ -1,6 +1,5 @@
 import { mysqlTable, varchar, int, primaryKey } from "drizzle-orm/mysql-core";
 import { usersTable } from "./users";
-// import type { AdapterAccountType } from "next-auth/adapters"
 
 export const accountsTable = mysqlTable(
     "accounts",
@@ -8,7 +7,7 @@ export const accountsTable = mysqlTable(
         userId: varchar("user_id", { length: 255 })
             .notNull()
             .references(() => usersTable.id, { onDelete: "cascade" }),
-        type: varchar("type", { length: 255 }).$type<AdapterAccountType>().notNull(),
+        type: varchar("type", { length: 255 }).notNull(),
         provider: varchar("provider", { length: 255 }).notNull(),
         providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
         refresh_token: varchar("refresh_token", { length: 255 }),

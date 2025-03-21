@@ -1,5 +1,8 @@
 "use server";
 
+import { signIn } from "@/auth";
+import { db } from "@/lib/drizzle/db";
+import { usersTable } from "@/lib/drizzle/schema";
 import { z } from "zod";
 
 const schema = z.object({
@@ -25,6 +28,13 @@ export const loginAction = async (state: LoginPrevStateType, formData: FormData)
             message: "Missing required fields",
         };
     }
+
+    const user = await db.select().from(usersTable).execute();
+
+    signIn("credentials", {
+        email: user[0].email,
+        password: user[0].password,
+    });
 
     return {
         message: "Login successful",

@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/drizzle/db";
 import { usersTable } from "@/lib/drizzle/schema";
+import { hash } from "@/lib/utils/hash";
 import { z } from "zod";
 // import { signIn } from "next-auth/react";
 
@@ -31,16 +32,13 @@ export const registerAction = async (state: RegisterPrevStateType, formData: For
         };
     }
 
-    const result = db
-        .insert(usersTable)
+    db.insert(usersTable)
         .values({
             name: data.name,
             email: data.email,
-            password: data.password,
+            password: await hash(data.password),
         })
         .execute();
-
-    console.log(result);
 
     return {
         message: "register successful",
