@@ -39,7 +39,7 @@ const LoginForm = () => {
                     Email
                 </Label>
                 <Input type="email" name="email" id="email" placeholder="Enter email" className="mb-0" defaultValue={state.old?.email ?? ""} />
-                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.email[0]}</small>
+                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.email?.[0]}</small>
             </div>
 
             <div className="mb-2">
@@ -61,7 +61,7 @@ const LoginForm = () => {
                     placeholder="Enter password"
                     defaultValue={state.old?.password ?? ""}
                 />
-                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.password[0]}</small>
+                <small className="inline-block text-destructive text-xs h-[1.25rem]">{state?.errors?.password?.[0]}</small>
             </div>
 
             <Button className="w-full mt-3" size="lg" type="submit" disabled={pending}>

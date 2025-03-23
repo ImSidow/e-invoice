@@ -17,4 +17,12 @@ export class UserRepository extends BaseRepository<UserType> {
     async findByEmail(email: string) {
         return await db.select().from(usersTable).where(eq(usersTable.email, email)).execute();
     }
+
+    async authenticate(email: string, password: string) {
+        const [user] = await this.findByEmail(email);
+        if (!user) return null;
+
+        const authenticated = (await hash(password)) === user.password;
+        return authenticated ? user : null;
+    }
 }

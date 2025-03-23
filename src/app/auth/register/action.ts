@@ -3,7 +3,6 @@
 import { UserRepository } from "@/lib/repository/user.repository";
 import { signIn } from "@/auth";
 import { FormSubmitResponseType } from "@/types";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const schema = z.object({
@@ -34,6 +33,11 @@ export const registerAction = async (state: FormSubmitResponseType<RegisterValid
     }
 
     const { password, ...rest } = await userRepository.create(data);
-    await signIn("credentials", rest);
-    redirect("/dashboard");
+    await signIn("credentials", { ...rest, redirectTo: "/dashboard" });
+
+    return {
+        old: data,
+        status: "error",
+        message: "an error occurred while creating your account",
+    };
 };

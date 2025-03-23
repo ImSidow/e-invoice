@@ -32,11 +32,10 @@ export const loginAction = async (state: FormSubmitResponseType<LoginValidationS
         };
     }
 
-    const user = await userRepository.findByEmail(data.email);
-    if (user[0] && user[0]?.password && (await compareHash(data.password, user[0].password))) {
-        await signIn("credentials", { redirect: false, ...user[0] });
+    const result = await userRepository.authenticate(data.email, data.password);
+    if (result) {
         const callbackUrl = (formData.get("callback") as string) || "/dashboard";
-        redirect(callbackUrl);
+        await signIn("credentials", { ...result, redirectTo: callbackUrl });
     }
 
     return {
