@@ -74,15 +74,7 @@ const RegisterForm = () => {
                 <hr className="border-dashed" />
             </div>
 
-            <Button
-                type="submit"
-                variant="outline"
-                size="lg"
-                className="w-full"
-                onClick={() => {
-                    signIn("github", { callbackUrl: "/dashboard" });
-                }}
-            >
+            <Button type="submit" variant="outline" size="lg" className="w-full" onClick={() => signIn("github", { callbackUrl: "/dashboard" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="0.98em" height="1em" viewBox="0 0 256 262">
                     <path
                         fill="#4285f4"
