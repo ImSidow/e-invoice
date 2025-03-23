@@ -4,6 +4,7 @@ import { signIn } from "@/auth";
 import { UserRepository } from "@/lib/repository/user.repository";
 import { compareHash } from "@/lib/utils/hash";
 import { FormSubmitResponseType } from "@/types";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const schema = z.object({
@@ -31,10 +32,10 @@ export const loginAction = async (state: FormSubmitResponseType<LoginValidationS
         };
     }
 
-    const user = await userRepository.findByEmail(data.email);
-    if (user[0] && user[0]?.password && (await compareHash(data.password, user[0].password))) {
+    const result = await userRepository.authenticate(data.email, data.password);
+    if (result) {
         const callbackUrl = (formData.get("callback") as string) || "/dashboard";
-        await signIn("credentials", { ...user[0], redirectTo: callbackUrl });
+        await signIn("credentials", { ...result, redirectTo: callbackUrl });
     }
 
     return {

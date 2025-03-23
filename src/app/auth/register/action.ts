@@ -34,4 +34,10 @@ export const registerAction = async (state: FormSubmitResponseType<RegisterValid
 
     const { password, ...rest } = await userRepository.create(data);
     await signIn("credentials", { ...rest, redirectTo: "/dashboard" });
+
+    return {
+        old: data,
+        status: "error",
+        message: "an error occurred while creating your account",
+    };
 };

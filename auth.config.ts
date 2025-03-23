@@ -6,12 +6,9 @@ import type { NextAuthConfig } from "next-auth";
 export default {
     providers: [
         Credentials({
-            async authorize(credentials) {
-                console.log("object");
-                if (credentials && credentials.id) {
-                    return credentials;
-                }
-                return null;
+            credentials: {},
+            async authorize(auth) {
+                return auth || null;
             },
         }),
         Github({
