@@ -5,7 +5,7 @@ import { Label } from "@/components/shadcn/ui/label";
 import { Button } from "@/components/shadcn/ui/button";
 import { Input } from "@/components/shadcn/ui/input";
 import { loginAction, LoginValidationSchemaType } from "../action";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FormSubmitResponseType } from "@/types";
 import { signIn } from "next-auth/react";
@@ -21,18 +21,26 @@ const LoginForm = () => {
     const params = useSearchParams();
     const callbackUrl = params.get("callback") ?? "/dashboard";
 
+    const [error, setError] = useState<string | null>(null);
     const [state, formAction, pending] = useActionState(loginAction, initialState);
+
+    const errorType = params.get("error");
+    useEffect(() => {
+        if (errorType === "user-not-found") {
+            setError("You need to register before signing in.");
+        }
+    }, [errorType]);
 
     return (
         <>
             <form action={formAction} className="mt-6">
-                {state.status === "error" && (
+                {(state.status === "error" || error) && (
                     <div
                         className="px-4 py-2 mb-4 border border-red-300 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
                     >
                         <h1 className="font-medium">Server Error</h1>
-                        <p className="mt-1">{state.message}</p>
+                        <p className="mt-1">{state?.message ?? error}</p>
                     </div>
                 )}
 
