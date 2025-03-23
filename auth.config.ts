@@ -11,13 +11,7 @@ export default {
                 return auth || null;
             },
         }),
-        Github({
-            clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string,
-        }),
-        Google({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_SECRET as string,
-        }),
+        Github,
+        Google,
     ],
 } satisfies NextAuthConfig;
