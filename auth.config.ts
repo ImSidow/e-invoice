@@ -5,7 +5,7 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Email from "next-auth/providers/email";
 
-// changing email provider 2
+// changing email provider 3
 
 export default {
     providers: [
